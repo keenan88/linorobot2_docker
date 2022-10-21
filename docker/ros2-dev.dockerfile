@@ -27,7 +27,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES \
 RUN mkdir -p /ros2_ws/src
 WORKDIR /ros2_ws
 
-RUN git clone https://github.com/linorobot/linorobot2.git; \
+RUN git clone -b foxy https://github.com/linorobot/linorobot2.git; \
 chmod 777 -R linorobot2; \
 #mv linorobot2 src; \
 rosdep update && rosdep install --from-path src linorobot2 --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
