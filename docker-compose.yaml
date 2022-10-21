@@ -20,3 +20,11 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - .:/ros2_ws/src
     command: sleep infinity
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
