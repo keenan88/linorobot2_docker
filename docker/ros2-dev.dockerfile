@@ -1,4 +1,4 @@
-FROM osrf/ros:humble-desktop
+FROM osrf/ros:foxy-desktop
 
 # use bash instead of sh
 SHELL ["/bin/bash", "-c"]
@@ -35,7 +35,7 @@ RUN git clone https://github.com/linorobot/linorobot2.git \
 
 # build ROS packages and allow non-compiled
 # sources to be edited without rebuild
-RUN source /opt/ros/humble/setup.bash && cd /ros2_ws && colcon build --symlink-install
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /ros2_ws && colcon build --symlink-install
 
 
 
