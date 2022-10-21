@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/ros2-dev.dockerfile
-    container_name: linorobot2-demo
+    container_name: linorobot2-demo-galactic
     restart: always
     stdin_open: true
     tty: true
