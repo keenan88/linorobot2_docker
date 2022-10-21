@@ -13,7 +13,11 @@ WORKDIR /ros2_ws
 
 
 
-RUN git clone https://github.com/linorobot/linorobot2.git && mv linorobot2 src && cd src && cd linorobot2 && git checkout fbcce1cd30cca7340915db62c74e56e71b6b881c
+RUN git clone https://github.com/linorobot/linorobot2.git \
+&& rosdep update && rosdep install --from-path src --ignore-src -y \
+&& mv linorobot2 src && cd /ros2_ws/src/linorobot2 && pwd \
+&& git checkout fbcce1cd30cca7340915db62c74e56e71b6b881c
+
 
 # build ROS packages and allow non-compiled
 # sources to be edited without rebuild
