@@ -27,19 +27,17 @@ ENV NVIDIA_DRIVER_CAPABILITIES \
 RUN mkdir -p /ros2_ws/src
 WORKDIR /ros2_ws
 
-RUN git clone -b galactic https://github.com/linorobot/linorobot2.git; \
-chmod 777 -R linorobot2; \
-#mv linorobot2 src; \
-rosdep update && rosdep install --from-path src linorobot2 --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
+COPY linorobot2 .
+RUN rosdep update && rosdep install --from-path src linorobot2 --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
 
-
-# build ROS packages and allow non-compiled
-# sources to be edited without rebuild
-RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /ros2_ws && colcon build --symlink-install
-
-
-
-# add packages to path
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc \
 && echo "export LINOROBOT2_BASE=mecanum" >> ~/.bashrc \
-&& source ~/.bashrc
+&& source ~/.bashrc && source /opt/ros/galactic/setup.bash && colcon build && source install/setup.bash
+
+ADD dockerStuff/ros_entrypoint.sh .
+RUN chmod +x ros_entrypoint.sh
+
+ENTRYPOINT ["/ros_entrypoinasdfasdft.sh"]
+CMD ["bash"]
+
+RUN echo hi

@@ -1,0 +1,16 @@
+version: '2.1'
+
+services:
+    turtle_sim:
+        build:
+            context: ../
+            dockerfile: dockerStuff/Dockerfile
+        environment:
+            - DISPLAY
+            - QT_X11_NO_MITSHM=1
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+        entrypoint: /ros_entrypoint.sh
+        command: sleep infinity
+        stdin_open: true
+        tty: true
