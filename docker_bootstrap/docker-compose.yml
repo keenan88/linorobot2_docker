@@ -2,18 +2,14 @@ version: "3"
 
 services:
 
-  commander_local:
+  linorobot_demo:
     build:
-      context: ./Docker_dual_system/local
-      dockerfile: Dockerfiles/Commander.Dockerfile
-    image: drone-docker-testing/commander:latest
+      context: .
+      dockerfile: Dockerfiles/linorobot2_nav2demo_Dockerfile
     network_mode: host
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
-    # env_file:
-    #   - ./Docker_dual_system/common.env
-    #   - ./Docker_dual_system/sim.env
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev/dri/card0:/dev/dri/card0

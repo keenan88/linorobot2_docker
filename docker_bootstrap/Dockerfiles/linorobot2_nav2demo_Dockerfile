@@ -11,15 +11,6 @@ RUN apt-get update \
     && echo "EST" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
 
-# Python Requirements
-#RUN apt-get update \
-#    && apt-get install -y python3 \
-#                          python-is-python3 \
-#                          pip \
-#    && pip install \
-#        imutils \
-#        opencv-python
-
 RUN apt-get update \
  && apt-get install -y gnome-terminal
 
@@ -36,5 +27,5 @@ RUN apt-get update && apt-get upgrade -y
 ENV LINOROBOT2_BASE mecanum
 RUN cd /dev_ws; . /opt/ros/$ROS_DISTRO/setup.sh; colcon build
 
-ADD ./Scripts/container-start.dev.sh /container-start.sh
+ADD ./Scripts/linorobot2_nav2demo_container-start.dev.sh /container-start.sh
 RUN chmod +x /container-start.sh
