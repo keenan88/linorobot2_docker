@@ -1,0 +1,74 @@
+version: "3"
+
+# networks:
+#   ANT_network:
+#     driver: bridge
+
+services:
+
+  commander_local:
+    build:
+      context: ./Docker_dual_system/local
+      dockerfile: Dockerfiles/Commander.Dockerfile
+    image: drone-docker-testing/commander:latest
+    network_mode: host
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    env_file:
+      - ./Docker_dual_system/common.env
+      - ./Docker_dual_system/sim.env
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri/card0:/dev/dri/card0
+#      - ./drone_sim:/dev_ws/src/drone_sim #remove later
+#      - ./drone_os:/dev_ws/src/drone_os #remove drone_os once lift controller is on drone, do in Dockerfile too
+#      - ./ant_world:/dev_ws/src/ant_world
+    entrypoint: /container-start.sh
+    stdin_open: true
+    tty: true
+
+#   rviz_local:
+#     build:
+#       context: ./Docker_dual_system/local
+#       dockerfile: Dockerfiles/Rviz.Dockerfile
+#     #image: drone-docker-testing/rviz:latest
+#     # networks:
+#     #   - ANT_network
+#     network_mode: host
+#     environment:
+#       - DISPLAY
+# #      - QT_X11_NO_MITSHM=1
+#     env_file:
+#       - ./Docker_dual_system/common.env
+#       - ./Docker_dual_system/sim.env
+#     volumes:
+#       - /tmp/.X11-unix:/tmp/.X11-unix
+#       - /dev/dri/card0:/dev/dri/card0
+#       - ./drone_sim:/dev_ws/src/drone_sim
+#       - ./Docker_dual_system/local/Volumes/rviz_config:/dev_ws/rviz/config
+#   #  runtime: nvidia
+#     entrypoint: /container-start.sh
+
+  # gazebo_local:
+  #   build:
+  #     context: ./Docker_dual_system/local
+  #     dockerfile: Dockerfiles/Gazebo.Dockerfile
+  #     args:
+  #       - COLCON_ON_BUILD=true
+  #   image: drone-docker-testing/gazebo:latest
+  #   # networks:
+  #   #   - ANT_network
+  #   network_mode: host
+  #   environment:
+  #     - DISPLAY
+  #     - QT_X11_NO_MITSHM=1
+  #   env_file:
+  #     - ./Docker_dual_system/common.env
+  #     - ./Docker_dual_system/sim.env
+  #   volumes:
+  #     - /tmp/.X11-unix:/tmp/.X11-unix
+  #     - /dev/dri/card0:/dev/dri/card0
+  #     - ./ant_world:/dev_ws/src/ant_world
+  # #  runtime: nvidia
+  #   entrypoint: /container-start.sh

@@ -1,0 +1,40 @@
+FROM osrf/ros:galactic-desktop
+
+ENV NVIDIA_VISIBLE_DEVICES ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+# \/ Prevents installs asking for keyboard language \/
+ENV DEBIAN_FRONTEND=noninteractive
+
+#Setup timezone so future installs don't get stuck
+RUN apt-get update \
+    && apt-get install -y gnupg tzdata \
+    && echo "EST" > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata
+
+# Python Requirements
+#RUN apt-get update \
+#    && apt-get install -y python3 \
+#                          python-is-python3 \
+#                          pip \
+#    && pip install \
+#        imutils \
+#        opencv-python
+
+RUN apt-get update \
+ && apt-get install -y gnome-terminal
+
+RUN mkdir /dev_ws \
+ && mkdir /dev_ws/src
+WORKDIR /dev_ws
+
+RUN git clone -b galactic https://github.com/linorobot/linorobot2.git; \
+chmod 777 -R linorobot2; \
+rosdep update && rosdep install --from-path linorobot2 --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
+
+RUN apt-get update && apt-get upgrade -y
+
+ENV LINOROBOT2_BASE mecanum
+RUN cd /dev_ws; . /opt/ros/$ROS_DISTRO/setup.sh; colcon build
+
+ADD ./Scripts/container-start.dev.sh /container-start.sh
+RUN chmod +x /container-start.sh
